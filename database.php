@@ -6,8 +6,7 @@ $pass = getenv('MYSQLPASSWORD') ?: '';
 $dbname = getenv('MYSQLDATABASE') ?: 'onlinemachanicfinder';
 $port = getenv('MYSQLPORT') ?: 3306;
 
-// Revert PHP 8's strict mode so the site doesn't crash on minor DB query errors
-mysqli_report(MYSQLI_REPORT_OFF);
+
 
 try {
     $connection = mysqli_connect($host, $user, $pass, $dbname, $port);
