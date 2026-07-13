@@ -1,12 +1,22 @@
 <?php
-// Look for Railway's variables, otherwise use local XAMPP defaults
-$host = getenv('MYSQLHOST') ?: 'localhost';
-$user = getenv('MYSQLUSER') ?: 'root';
-$pass = getenv('MYSQLPASSWORD') ?: '';
-$dbname = getenv('MYSQLDATABASE') ?: 'onlinemachanicfinder';
-$port = getenv('MYSQLPORT') ?: 3306;
+// Try to get the unified MYSQL_URL provided by Railway
+$mysql_url = getenv('MYSQL_URL');
 
-
+if ($mysql_url) {
+    $dbparts = parse_url($mysql_url);
+    $host = $dbparts['host'];
+    $user = $dbparts['user'];
+    $pass = $dbparts['pass'] ?? '';
+    $dbname = ltrim($dbparts['path'], '/');
+    $port = $dbparts['port'] ?? 3306;
+} else {
+    // Fallback for local XAMPP
+    $host = getenv('MYSQLHOST') ?: 'localhost';
+    $user = getenv('MYSQLUSER') ?: 'root';
+    $pass = getenv('MYSQLPASSWORD') ?: '';
+    $dbname = getenv('MYSQLDATABASE') ?: 'onlinemachanicfinder';
+    $port = getenv('MYSQLPORT') ?: 3306;
+}
 
 try {
     $connection = mysqli_connect($host, $user, $pass, $dbname, $port);
