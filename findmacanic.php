@@ -1,8 +1,8 @@
 <?php
+session_start();
 include('./database.php');
 include('./navbar.php');
 $msg = null;
-session_start();
 
 if (isset($_POST['sendrequest'])) {
     $msg = "You are not logged in! Please login first to send a request.";
