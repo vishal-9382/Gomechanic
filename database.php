@@ -6,9 +6,12 @@ $pass = getenv('MYSQLPASSWORD') ?: '';
 $dbname = getenv('MYSQLDATABASE') ?: 'onlinemachanicfinder';
 $port = getenv('MYSQLPORT') ?: 3306;
 
-$connection = mysqli_connect($host, $user, $pass, $dbname, $port);
-
-if (!$connection) {
-    die("Database connection failed: " . mysqli_connect_error());
+try {
+    $connection = mysqli_connect($host, $user, $pass, $dbname, $port);
+    if (!$connection) {
+        die("Database connection failed: " . mysqli_connect_error());
+    }
+} catch (Exception $e) {
+    die("<h1>Database Error!</h1><p>Failed to connect to the database. Make sure your variables are linked correctly on Railway.</p><p>Error: " . $e->getMessage() . "</p>");
 }
 ?>
